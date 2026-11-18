@@ -1,15 +1,218 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>Tinwork Coffee Roasters</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;800&family=Hanken+Grotesk:wght@400;600;700&display=swap" />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tinwork Coffee Roasters</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;800&family=Hanken+Grotesk:wght@400;600;700&display=swap">
+<style>
+:root{--bg:#f4f5ff;--ink:#0e1033;--muted:#555a85;--card:#fff;--line:#d9dcf5;--cobalt:#2a35d6;--sun:#ffd23f;--onc:#fff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#0b0d26;--ink:#eceeff;--muted:#9aa0cf;--card:#14173b;--line:#272b5c;--cobalt:#7580ff;--onc:#0b0d26}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#0b0d26;--ink:#eceeff;--muted:#9aa0cf;--card:#14173b;--line:#272b5c;--cobalt:#7580ff;--onc:#0b0d26}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.55 "Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif}
+button,select,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--cobalt);outline-offset:3px}
+.disp{font-family:"Unbounded","Arial Black",system-ui,sans-serif;font-weight:800;letter-spacing:-.03em;line-height:.98}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;gap:16px}
+nav a{color:inherit;text-decoration:none;font-weight:600}
+.logo{font-family:"Unbounded",sans-serif;font-weight:800;font-size:1.05rem}
+.links{display:flex;gap:22px;align-items:center}
+@media(max-width:600px){.links .l{display:none}}
+.cartbtn{background:var(--ink);color:var(--bg);border:0;border-radius:999px;padding:8px 16px;font-weight:700;cursor:pointer}
+.hero{background:var(--hbg);color:var(--hfg);transition:background .25s,color .25s}
+.hero .wrap{display:grid;gap:32px;padding-top:56px;padding-bottom:64px;grid-template-columns:1fr}
+@media(min-width:900px){.hero .wrap{grid-template-columns:1.25fr .75fr;align-items:center}}
+.hero h1{font-size:clamp(2.5rem,8.2vw,6.4rem);margin:0 0 20px}
+.hero p{max-width:44ch;margin:0 0 28px;font-size:1.1rem}
+.dial{max-width:520px}
+.dial .top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+.dial .name{font-family:"Unbounded",sans-serif;font-weight:800;font-size:1.5rem}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:14px;border-radius:7px;background:linear-gradient(90deg,#ffd23f,#c9772e,#3a1c10);outline-offset:6px}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:34px;height:34px;border-radius:50%;background:#fff;border:5px solid var(--cobalt);cursor:grab;box-shadow:0 2px 8px #0004}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:#fff;border:5px solid var(--cobalt);cursor:grab}
+.ends{display:flex;justify-content:space-between;font-size:.85rem;margin-top:8px;opacity:.8}
+.pick{margin-top:22px;font-size:1rem}
+.pick b{font-weight:700}
+.bag{width:100%;max-width:340px;justify-self:center;transition:transform .3s}
+.sec{padding:72px 0}
+.sec h2{font-size:clamp(1.9rem,5vw,3.2rem);margin:0 0 12px}
+.lead{color:var(--muted);max-width:56ch;margin:0 0 36px}
+.grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px;position:relative}
+.card.best{border:2px solid var(--cobalt)}
+.badge{position:absolute;top:14px;right:14px;background:var(--sun);color:#0e1033;font-weight:700;font-size:.8rem;padding:3px 10px;border-radius:999px}
+.card svg{width:96px;height:auto;align-self:flex-start}
+.card h3{margin:0;font-size:1.3rem;font-weight:700}
+.meta{color:var(--muted);font-size:.95rem;margin:0}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+select{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px 10px;min-width:0;width:100%}
+.seg{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.seg button{border:0;background:transparent;padding:9px 6px;cursor:pointer;font-size:.92rem;font-weight:600}
+.seg button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+.buy{display:flex;justify-content:space-between;align-items:center;margin-top:auto}
+.price{font-family:"Unbounded",sans-serif;font-weight:500;font-size:1.25rem}
+.price s{font-size:.9rem;color:var(--muted);margin-right:6px}
+.btn{background:var(--cobalt);color:var(--onc);border:0;border-radius:12px;padding:11px 18px;font-weight:700;cursor:pointer}
+.btn:active{transform:scale(.97)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.facts{display:grid;gap:28px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.facts div{border-left:4px solid var(--cobalt);padding-left:18px}
+.facts h3{margin:0 0 6px;font-size:1.25rem}
+.facts p{margin:0;color:var(--muted)}
+.band{background:var(--cobalt);color:var(--onc)}
+.band .lead{color:inherit;opacity:.85}
+.nl{display:flex;gap:8px;flex-wrap:wrap;max-width:480px}
+.nl input{flex:1;min-width:200px;border:2px solid currentColor;background:transparent;border-radius:12px;padding:11px 14px}
+.nl input::placeholder{color:inherit;opacity:.7}
+.nl .btn{background:var(--sun);color:#0e1033}
+footer{padding:28px 0 40px;color:var(--muted);font-size:.95rem}
+.shade{position:fixed;inset:0;background:#0008;z-index:30}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(420px,100%);background:var(--bg);z-index:40;display:flex;flex-direction:column;padding:calc(env(safe-area-inset-top,0px) + 20px) 20px calc(env(safe-area-inset-bottom,0px) + 20px);box-shadow:-8px 0 30px #0005;animation:slide .22s ease-out}
+@keyframes slide{from{transform:translateX(30px);opacity:0}}
+.drawer header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.drawer h2{margin:0;font-size:1.4rem}
+.x{background:transparent;border:1px solid var(--line);border-radius:50%;width:36px;height:36px;cursor:pointer}
+.items{flex:1;overflow:auto}
+.li{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:14px 0;border-top:1px solid var(--line)}
+.li small{color:var(--muted)}
+.q{display:flex;align-items:center;gap:8px;grid-row:1/3;grid-column:2}
+.q button{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:transparent;cursor:pointer}
+.ship{margin:8px 0 14px;font-size:.95rem}
+.bar{height:8px;background:var(--line);border-radius:4px;margin-top:6px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--cobalt);transition:width .3s}
+.sum{display:flex;justify-content:space-between;font-weight:700;font-size:1.15rem;padding:12px 0}
+.ok{text-align:center;padding:40px 8px}
+.empty{color:var(--muted);padding:24px 0}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script>
+const h = React.createElement, F = React.Fragment;
+const { useState, useEffect, useMemo } = React;
+
+const BEANS = [
+  { id: "sid", name: "Sidama Natural", origin: "Ethiopia", roast: 15, notes: "Blueberry, jasmine, wild honey", price: 19, c: "#2a35d6" },
+  { id: "kia", name: "Kiambu Washed", origin: "Kenya", roast: 28, notes: "Blackcurrant, grapefruit, brown sugar", price: 20, c: "#e8462f" },
+  { id: "hui", name: "Huila Honey", origin: "Colombia", roast: 42, notes: "Red apple, panela, cocoa nib", price: 17, c: "#117a65" },
+  { id: "ser", name: "Cerrado Pulped", origin: "Brazil", roast: 55, notes: "Hazelnut, milk chocolate, toast", price: 16, c: "#0e1033" },
+  { id: "hou", name: "Tinwork House", origin: "Three-origin blend", roast: 68, notes: "Caramel, walnut, orange peel", price: 15, c: "#2a35d6" },
+  { id: "sum", name: "Mandheling", origin: "Sumatra", roast: 86, notes: "Cedar, dark cacao, molasses", price: 17, c: "#e8462f" }
+];
+const SIZES = { "250 g": 1, "1 kg": 3.5 };
+const GRINDS = ["Whole bean", "Espresso", "Moka pot", "Filter", "French press"];
+const money = n => "$" + n.toFixed(2);
+const roastName = v => v < 20 ? "Light" : v < 40 ? "Medium-light" : v < 60 ? "Medium" : v < 80 ? "Medium-dark" : "Dark";
+const lerp = (a, b, t) => Math.round(a + (b - a) * t);
+const mix = t => `rgb(${lerp(255, 58, t)},${lerp(210, 28, t)},${lerp(63, 16, t)})`;
+
+function Bag({ c, text, label }) {
+  return h("svg", { viewBox: "0 0 120 160", role: "img", "aria-label": text + " bag" },
+    h("path", { d: "M14 26h92l6 16v98a10 10 0 0 1-10 10H18a10 10 0 0 1-10-10V42z", fill: c }),
+    h("rect", { x: 14, y: 10, width: 92, height: 18, rx: 4, fill: c }),
+    h("rect", { x: 14, y: 10, width: 92, height: 18, rx: 4, fill: "#000", opacity: .22 }),
+    h("rect", { x: 22, y: 62, width: 76, height: 66, rx: 8, fill: label || "#ffd23f" }),
+    h("text", { x: 60, y: 90, textAnchor: "middle", fontSize: 11, fontWeight: 800, fill: "#0e1033", fontFamily: "Unbounded,sans-serif" }, text.split(" ")[0]),
+    h("text", { x: 60, y: 106, textAnchor: "middle", fontSize: 8, fill: "#0e1033" }, "Tinwork Roasters"));
+}
+
+function Product({ p, best, onAdd }) {
+  const [size, setSize] = useState("250 g");
+  const [grind, setGrind] = useState("Whole bean");
+  const [sub, setSub] = useState(false);
+  const base = Math.round(p.price * SIZES[size] * 100) / 100;
+  const unit = sub ? Math.round(base * 85) / 100 : base;
+  return h("article", { className: "card" + (best ? " best" : "") },
+    best && h("span", { className: "badge" }, "Closest to your roast"),
+    h(Bag, { c: p.c, text: p.name }),
+    h("div", null, h("h3", null, p.name), h("p", { className: "meta" }, p.origin + ", " + roastName(p.roast).toLowerCase() + " roast"), h("p", { className: "meta" }, p.notes)),
+    h("div", { className: "opts" },
+      h("select", { "aria-label": p.name + " size", value: size, onChange: e => setSize(e.target.value) }, Object.keys(SIZES).map(s => h("option", { key: s }, s))),
+      h("select", { "aria-label": p.name + " grind", value: grind, onChange: e => setGrind(e.target.value) }, GRINDS.map(g => h("option", { key: g }, g)))),
+    h("div", { className: "seg", role: "group", "aria-label": "Delivery" },
+      h("button", { "aria-pressed": !sub, onClick: () => setSub(false) }, "One bag"),
+      h("button", { "aria-pressed": sub, onClick: () => setSub(true) }, "Every 2 weeks, save 15%")),
+    h("div", { className: "buy" },
+      h("span", { className: "price" }, sub && h("s", null, money(base)), money(unit)),
+      h("button", { className: "btn", onClick: () => onAdd({ key: [p.id, size, grind, sub].join("|"), name: p.name, size, grind, sub, unit, qty: 1 }) }, "Add to bag")));
+}
+
+function Drawer({ cart, change, close, placed, place, reset }) {
+  const total = cart.reduce((s, i) => s + i.unit * i.qty, 0);
+  const left = Math.max(0, 40 - total);
+  return h(F, null,
+    h("div", { className: "shade", onClick: close }),
+    h("aside", { className: "drawer", role: "dialog", "aria-label": "Your bag" },
+      h("header", null, h("h2", { className: "disp" }, "Your bag"), h("button", { className: "x", onClick: close, "aria-label": "Close bag" }, "✕")),
+      placed ? h("div", { className: "ok" }, h("h2", { className: "disp" }, "Order in."), h("p", null, "Order TW-" + (10000 + Math.floor(Math.random() * 89999)) + " goes into the roaster at the next batch."), h("button", { className: "btn", onClick: reset }, "Keep browsing"))
+      : h(F, null,
+        h("div", { className: "ship" }, left > 0 ? "Add " + money(left) + " more for free shipping" : "You’ve unlocked free shipping", h("div", { className: "bar" }, h("i", { style: { width: Math.min(100, total / 40 * 100) + "%" } }))),
+        h("div", { className: "items" },
+          !cart.length && h("p", { className: "empty" }, "Your bag is empty. Slide the roast dial and pick a coffee."),
+          cart.map(i => h("div", { className: "li", key: i.key },
+            h("strong", null, i.name),
+            h("div", { className: "q" }, h("button", { "aria-label": "Remove one", onClick: () => change(i.key, -1) }, "−"), h("span", null, i.qty), h("button", { "aria-label": "Add one", onClick: () => change(i.key, 1) }, "+")),
+            h("small", null, i.size + ", " + i.grind.toLowerCase() + (i.sub ? ", every 2 weeks" : "") + ", " + money(i.unit * i.qty))))),
+        h("div", { className: "sum" }, h("span", null, "Subtotal"), h("span", null, money(total))),
+        h("button", { className: "btn", disabled: !cart.length, onClick: place }, "Check out"))));
+}
+
+function App() {
+  const [roast, setRoast] = useState(35);
+  const [cart, setCart] = useState(() => { try { return JSON.parse(localStorage.getItem("tw-cart")) || []; } catch (e) { return []; } });
+  const [open, setOpen] = useState(false);
+  const [placed, setPlaced] = useState(false);
+  const [mail, setMail] = useState(""); const [joined, setJoined] = useState(false);
+  useEffect(() => { try { localStorage.setItem("tw-cart", JSON.stringify(cart)); } catch (e) {} }, [cart]);
+  const sorted = useMemo(() => [...BEANS].sort((a, b) => Math.abs(a.roast - roast) - Math.abs(b.roast - roast)), [roast]);
+  const best = sorted[0];
+  const t = roast / 100, dark = roast > 55;
+  const add = it => { setPlaced(false); setCart(c => c.some(x => x.key === it.key) ? c.map(x => x.key === it.key ? { ...x, qty: x.qty + 1 } : x) : [...c, it]); setOpen(true); };
+  const change = (k, d) => setCart(c => c.map(x => x.key === k ? { ...x, qty: x.qty + d } : x).filter(x => x.qty > 0));
+  const n = cart.reduce((s, i) => s + i.qty, 0);
+  return h(F, null,
+    h("nav", null, h("div", { className: "wrap" }, h("a", { href: "#top", className: "logo" }, "Tinwork"),
+      h("div", { className: "links" }, h("a", { className: "l", href: "#shop" }, "Coffee"), h("a", { className: "l", href: "#craft" }, "Our roasting"), h("button", { className: "cartbtn", onClick: () => setOpen(true) }, "Bag (" + n + ")")))),
+    h("header", { id: "top", className: "hero", style: { "--hbg": mix(t), "--hfg": dark ? "#fff4e6" : "#0e1033" } },
+      h("div", { className: "wrap" },
+        h("div", null,
+          h("h1", { className: "disp" }, "Coffee roasted to your exact taste."),
+          h("p", null, "Slide from bright and fruity to deep and smoky. We’ll show you the beans that match, roasted twice a week and shipped within a day."),
+          h("div", { className: "dial" },
+            h("div", { className: "top" }, h("span", { className: "name" }, roastName(roast)), h("span", null, roast + " of 100")),
+            h("input", { type: "range", min: 0, max: 100, value: roast, "aria-label": "Roast level", onChange: e => setRoast(+e.target.value) }),
+            h("div", { className: "ends" }, h("span", null, "Bright and fruity"), h("span", null, "Deep and smoky")),
+            h("p", { className: "pick" }, "Try ", h("b", null, best.name), " from " + best.origin + ": " + best.notes.toLowerCase() + "."))),
+        h("div", { className: "bag", style: { transform: "rotate(" + (roast - 50) / 12 + "deg)" } }, h(Bag, { c: "#2a35d6", text: best.name, label: "#ffd23f" })))),
+    h("section", { id: "shop", className: "sec" }, h("div", { className: "wrap" },
+      h("h2", { className: "disp" }, "Six coffees, one for every roast"),
+      h("p", { className: "lead" }, "Every lot is traceable to a single farm or co-op. Subscribe and save 15%, skip or cancel any time."),
+      h("div", { className: "grid" }, sorted.map((p, i) => h(Product, { key: p.id, p, best: i === 0, onAdd: add }))))),
+    h("section", { id: "craft", className: "sec", style: { paddingTop: 0 } }, h("div", { className: "wrap" },
+      h("h2", { className: "disp" }, "Small batches, no shortcuts"),
+      h("p", { className: "lead" }, "A 12 kg drum roaster, a cupping table, and a rule that nothing ships stale."),
+      h("div", { className: "facts" },
+        h("div", null, h("h3", null, "Roasted Monday and Thursday"), h("p", null, "Orders ship within 24 hours of roasting, so your coffee arrives at peak flavor.")),
+        h("div", null, h("h3", null, "Paid fairly, traced fully"), h("p", null, "We publish farm, altitude and what we paid for every lot on the bag.")),
+        h("div", null, h("h3", null, "Bags you can compost"), h("p", null, "Plant-based liners and paper outers. Rinse, bin, done.")))))
+    ,
+    h("section", { className: "sec band" }, h("div", { className: "wrap" },
+      h("h2", { className: "disp" }, "Hear about new lots first"),
+      h("p", { className: "lead" }, "One email when a new coffee lands. Nothing else."),
+      joined ? h("p", null, "You’re on the list. Thank you.") :
+      h("div", { className: "nl" }, h("input", { type: "email", "aria-label": "Email address", placeholder: "you@email.com", value: mail, onChange: e => setMail(e.target.value) }), h("button", { className: "btn", onClick: () => /\S+@\S+\.\S+/.test(mail) && setJoined(true) }, "Join the list")))),
+    h("footer", null, h("div", { className: "wrap" }, "© 2026 Tinwork Coffee Roasters. Demo storefront: checkout is simulated.")),
+    open && h(Drawer, { cart, change, close: () => setOpen(false), placed, place: () => { setPlaced(true); setCart([]); }, reset: () => { setPlaced(false); setOpen(false); } }));
+}
+ReactDOM.createRoot(document.getElementById("root")).render(h(App));
+</script>
+</body>
 </html>
